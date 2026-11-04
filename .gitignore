@@ -1,0 +1,11 @@
+node_modules/
+.next/
+.env.local
+.env
+*.tsbuildinfo
+test-results/
+.npm-cache/
+artifacts/
+.claude/
+.env.*
+!.env.example
