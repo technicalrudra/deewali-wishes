@@ -20,6 +20,23 @@ header{padding-top:max(27px,env(safe-area-inset-top))}.sound{min-width:44px;min-
 @media(max-width:600px){.step-2 .diya-stage{height:185px}.step-2 .journey{margin-top:18px;margin-bottom:18px}.step-2 footer{padding-top:16px;padding-bottom:calc(18px + env(safe-area-inset-bottom))}.step-2 .celebration-actions{margin-top:16px}}
 @media(max-height:780px){.step-2 .diya-stage{height:155px}.step-2 .journey{margin-top:12px;margin-bottom:14px}.step-2 .celebration-actions{margin-top:12px}.step-2 .counter{margin-top:14px;padding-top:13px}}
 @media(max-width:600px) and (max-height:820px){.step-2 .diya-stage{height:160px}.step-2 .journey{margin-top:12px;margin-bottom:12px}.step-2 .footer-year{display:none}.step-2 .footer-ornament{margin-bottom:6px}.step-2 .counter{margin-top:14px;padding-top:13px}}
+/* The browser recalculates dvh as its address bar or device orientation changes.
+   Only the illustration and spacing flex; controls retain their touch targets. */
+.experience{--fit-gap:clamp(8px,calc((100dvh - 580px)/12),24px);height:100dvh;min-height:640px;overflow-x:clip;overflow-y:visible}
+.experience>.ambient{height:min(550px,calc(100% - 230px))}
+.experience>header,.experience>.journey,.experience>footer{flex-shrink:0}
+.experience>header{padding-top:max(env(safe-area-inset-top),clamp(18px,3dvh,37px))}
+.experience>.journey{margin-top:var(--fit-gap);margin-bottom:var(--fit-gap)}
+.experience>.screen{display:flex;flex-direction:column;flex:1 0 auto;padding-top:0}
+.experience .screen>h1{margin-top:clamp(12px,2dvh,20px);margin-bottom:clamp(10px,1.8dvh,18px)}
+.experience .screen>.diya-stage{height:auto;min-height:125px;max-height:280px;flex:1 0 125px;margin-top:0;margin-bottom:0}
+.experience .welcome-form,.experience .action-area{width:100%;margin-top:var(--fit-gap)}
+.experience .screen>.welcome-form,.experience .screen>.action-area{flex-shrink:0}
+.experience>footer{margin-top:0;padding-top:var(--fit-gap);padding-bottom:max(env(safe-area-inset-bottom),clamp(16px,2.5dvh,28px))}
+.experience.step-2 .screen>.diya-stage{min-height:105px;max-height:215px;flex-basis:105px}
+.experience.step-2 .counter{margin-top:clamp(12px,2dvh,18px);padding-top:clamp(10px,1.8dvh,16px)}
+@media(max-height:720px){.experience h1,.experience.step-2 h1{font-size:34px}.experience .screen>.diya-stage{min-height:110px;flex-basis:110px}.experience.step-2 .screen>.diya-stage{min-height:95px;flex-basis:95px}.experience .footer-year{display:none}.experience .footer-ornament{margin-bottom:5px}.experience .welcome-form label{margin-bottom:8px}.experience .privacy{margin-top:9px}}
+.creator-credit{letter-spacing:1px;font-size:9px}.credit-heart{color:#e85d75}.creator-credit a{display:inline-flex;align-items:center;gap:5px;vertical-align:middle;color:#edc276;text-underline-offset:3px}.creator-credit a:hover{text-decoration:underline}
 .step-0 .input-wrap:not(:focus-within):has(input:placeholder-shown){animation:name-nudge 6s ease-in-out infinite}
 @keyframes name-nudge{0%,85%,100%{transform:translateX(0);box-shadow:0 0 0 transparent}87%,91%{transform:translateX(-3px);box-shadow:0 0 16px #ffc85718}89%,93%{transform:translateX(3px);box-shadow:0 0 16px #ffc85718}95%{transform:translateX(-1px)}97%{transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

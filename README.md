@@ -45,6 +45,7 @@ Each actual lighting generates a UUID once. The API accepts this UUID and a serv
 - Lazy-loaded WebGL scene; DPR capped at 1.5, modest particles, low-resolution local light environment without external models/HDRs. Hidden tabs suspend animation/audio. Reduced motion renders a static scene and removes UI movement.
 - A CSS-rendered metallic lamp and flame provide a lightweight WebGL failure fallback. All interactions remain HTML buttons with labels and keyboard access.
 - Google-hosted fonts have local serif/sans-serif fallbacks if the font request fails.
+- Layout uses `100dvh` and flexible illustration space to fit the actual browser height, including address-bar/orientation changes. Spacing contracts on shorter screens while buttons keep their touch targets. Normal layouts are checked down to 360×640. Below that height, or when enlarged text needs more room, scrolling remains available instead of clipping content. Run `node scripts/verify-layout.mjs` to check all three screens, validation feedback and viewport resizing.
 
 ## Counter verification against a configured database
 

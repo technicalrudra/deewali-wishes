@@ -5,6 +5,7 @@ import { ArrowRight, AudioLines, VolumeX, Sparkles, Heart, Share2, Check, Chevro
 import { useEffect, useRef, useState } from 'react';
 import { useAudio } from '@/hooks/useAudio';
 import { useDiyaCounter } from '@/hooks/useDiyaCounter';
+import { createLightingEventId } from '@/lib/lighting-event';
 const Scene = dynamic(()=>import('./three/Scene'),{ssr:false,loading:()=> <div className="scene-loading"><span/>Preparing a little magic…</div>});
 const Fireworks = dynamic(()=>import('./three/Fireworks'),{ssr:false});
 
@@ -22,7 +23,7 @@ export default function Experience(){
   return()=>clearTimeout(timer);
  },[celebrating,reduced]);
  function celebrate(){if(fireworksLock.current)return;fireworksLock.current=true;setCelebrating(true);audio.chime();}
- function light(){if(lock.current)return;lock.current=true;event.current=crypto.randomUUID();setLit(true);audio.chime();navigator.vibrate?.(35);void recordLight(event.current);}
+ function light(){if(lock.current)return;event.current=createLightingEventId();lock.current=true;setLit(true);audio.chime();navigator.vibrate?.(35);void recordLight(event.current);}
  async function share(){setShareError('');const text=`Happy Diwali from ${name}! May your life shine brighter than a thousand diyas. A little light, a little love, a little Diwali magic.`;try{if(navigator.share)await navigator.share({title:'A Little Diwali Magic',text,url:location.href});else {await navigator.clipboard.writeText(`${text}\n${location.href}`);setShared(true);setTimeout(()=>setShared(false),3500);}}catch(e){if((e as Error).name!=='AbortError')setShareError('Sharing is unavailable. Copy the address from your browser to share your light.');}}
  return <main className={`experience step-${step} ${lit?'is-lit':''}`}>
   <div className="grain" aria-hidden="true"/><div className="ambient" aria-hidden="true"/>
@@ -52,7 +53,7 @@ export default function Experience(){
     <p id="fireworks-hint" className="fireworks-hint" role="status">{celebrating?'A little magic, just for you.':'Tap to illuminate the night sky.'}</p>
     <button className="secondary" onClick={share}>{shared?'LINK COPIED':'SHARE THE HAPPINESS'} {shared?<Check size={17}/>:<Share2 size={17}/>}</button>{shareError&&<p role="status" className="error">{shareError}</p>}<div className="counter" aria-live="polite"><div className="counter-label"><Sparkles size={14}/><strong>{count!==null?count.toLocaleString():counterState==='loading'||counterState==='syncing'?'…':'—'}</strong><span>DIYAS LIT</span></div><p>{counterState==='syncing'?'Adding your light to the world…':counterState==='pending'?'Your light is shining. We’re still adding it to the global count.':counterState==='offline'?'Your light is shining. The global count is temporarily unavailable.':"Together, we’re spreading light and happiness!"}</p>{(counterState==='pending'||counterState==='offline')&&<button className="retry" onClick={()=>void recordLight()}>Reconnect your light <ArrowRight size={11}/></button>}</div></div>}
   </motion.section></AnimatePresence>
-  <footer><div className="footer-ornament"><span/>✧<span/></div><p>MADE WITH LIGHT & A LITTLE LOVE</p><span className="footer-year">DIWALI · A CELEBRATION OF NEW BEGINNINGS</span></footer>
+  <footer><div className="footer-ornament"><span/>✧<span/></div><p className="creator-credit">Made with <span className="credit-heart" aria-label="love">♥</span> by <a href="http://instagram.com/rudrasatyam" target="_blank" rel="noopener noreferrer" aria-label="Rudra Satyam on Instagram (opens in a new tab)">Rudra Satyam <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg></a></p><span className="footer-year">DIWALI · A CELEBRATION OF NEW BEGINNINGS</span></footer>
  </main>;
 }
 function Floral(){return <svg width="27" height="29" viewBox="0 0 32 32" fill="none" aria-hidden="true">{Array.from({length:8},(_,i)=><ellipse key={i} cx="16" cy="10" rx="3.2" ry="7" stroke="currentColor" strokeWidth=".8" transform={`rotate(${i*45} 16 16)`}/>)}<circle cx="16" cy="16" r="3" fill="currentColor"/></svg>;}

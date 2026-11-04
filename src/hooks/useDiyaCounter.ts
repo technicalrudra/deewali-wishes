@@ -35,12 +35,14 @@ export function useDiyaCounter(active: boolean) {
     inFlight.current = true;
     attempts.current += 1;
     setWriteState('syncing');
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
     try {
       const response = await fetch('/api/diyas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ eventId: eventId.current }),
-        signal: AbortSignal.timeout(10000),
+        signal: controller.signal,
       });
       acceptCount(await readCount(response));
       saved.current = true;
@@ -48,6 +50,7 @@ export function useDiyaCounter(active: boolean) {
     } catch {
       setWriteState('pending');
     } finally {
+      clearTimeout(timeout);
       inFlight.current = false;
     }
   }, [acceptCount]);
